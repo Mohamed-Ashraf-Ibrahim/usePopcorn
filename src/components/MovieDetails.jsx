@@ -27,6 +27,11 @@ export function MovieDetails({
 
   useEffect(() => {
     document.title = `Movie | ${title}`;
+    // Solution 
+    return () => {
+      document.title = "usePopcorn";
+      console.log(`${title}`); 
+    };
   }, [title]);
 
   function handleAdd() {
