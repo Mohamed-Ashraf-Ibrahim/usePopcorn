@@ -24,7 +24,7 @@ export function MovieDetails({
     Director: director,
     Genre: genre,
   } = movie;
-
+  // Effect for Change the document title
   useEffect(() => {
     document.title = `Movie | ${title}`;
     // Solution
@@ -33,6 +33,23 @@ export function MovieDetails({
       console.log(`${title}`);
     };
   }, [title]);
+
+  // Effect for implement the key press feature
+  useEffect(() => {
+    // Callback function to handle 'Escape' key press.
+    function callBack(e) {
+      if (e.code === "Escape") {
+        onCloseMovie();
+        console.log("CLOSING");
+      }
+    }
+    // Add event listener for "keydown" to trigger callBack function.
+    document.addEventListener("keydown", callBack);
+    // Cleanup function to remove the event listener when component unmounts or dependencies change.
+    return () => {
+      document.removeEventListener("keydown", callBack);
+    };
+  }, [onCloseMovie]);
 
   function handleAdd() {
     const newWatchedMovie = {
