@@ -27,10 +27,10 @@ export function MovieDetails({
 
   useEffect(() => {
     document.title = `Movie | ${title}`;
-    // Solution 
+    // Solution
     return () => {
       document.title = "usePopcorn";
-      console.log(`${title}`); 
+      console.log(`${title}`);
     };
   }, [title]);
 
@@ -55,6 +55,7 @@ export function MovieDetails({
   )?.userRating;
 
   useEffect(() => {
+    const controller = new AbortController();
     async function getMovieDetails() {
       setIsLoading(true);
       const res = await fetch(
