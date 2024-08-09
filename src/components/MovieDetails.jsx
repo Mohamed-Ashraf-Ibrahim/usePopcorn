@@ -11,7 +11,8 @@ export function MovieDetails({
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
-  const KEY = "2b55bf92";
+  const KEY = "aac862ac";
+
   const {
     Title: title,
     Year: year,
@@ -24,6 +25,8 @@ export function MovieDetails({
     Director: director,
     Genre: genre,
   } = movie;
+
+
   // Effect for Change the document title
   useEffect(() => {
     document.title = `Movie | ${title}`;
@@ -71,14 +74,12 @@ export function MovieDetails({
   )?.userRating;
 
   useEffect(() => {
-    const controller = new AbortController();
     async function getMovieDetails() {
       setIsLoading(true);
       const res = await fetch(
         `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
       );
       const data = await res.json();
-      console.log(data);
       setMovie(data);
       setIsLoading(false);
     }

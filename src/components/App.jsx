@@ -59,15 +59,17 @@ export const tempWatchedData = [
   },
 ];
 
-const KEY = "2b55bf92";
-
 export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const KEY = "aac862ac";
+  const [watched, setWatched] = useState(function () {
+    const storedValue = localStorage.getItem("watched");
+    return JSON.parse(storedValue);
+  });
 
   function handleSelectedMovie(id) {
     setSelectedId((selectedId) => (selectedId === id ? null : id));
@@ -85,6 +87,10 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
+
   useEffect(
     function () {
       // setError("");
@@ -100,11 +106,9 @@ export default function App() {
           if (!res.ok)
             throw new Error("Something went wrong with fetching movies!");
           const data = await res.json();
-
           if (data.Response === "False") throw new Error("Movie not found!");
           setMovies(data.Search);
           setError("");
-          
         } catch (err) {
           if (err.name !== "AbortError") {
             setError(err.message);
@@ -132,6 +136,7 @@ export default function App() {
         <Search query={query} setQuery={setQuery} />
         <ResultsNums movies={movies} />
       </Nav>
+
       <Main>
         <Box>
           {movies.length === 0 && !isLoading && !error ? (
@@ -143,6 +148,7 @@ export default function App() {
           )}
           {error && <ErrorMessage message={error} />}
         </Box>
+
         <Box>
           {selectedId ? (
             <MovieDetails
