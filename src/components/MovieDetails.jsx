@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import StarsRating from "./StarsRating";
 import { Loader } from "./Loader";
+import { useKey } from "../useKey";
 
 export function MovieDetails({
   selectedId,
@@ -42,21 +43,8 @@ export function MovieDetails({
     };
   }, [title]);
 
-  // Effect for implement the key press feature
-  useEffect(() => {
-    // Callback function to handle 'Escape' key press.
-    function callBack(e) {
-      if (e.code === "Escape") {
-        onCloseMovie();
-      }
-    }
-    // Add event listener for "keydown" to trigger callBack function.
-    document.addEventListener("keydown", callBack);
-    // Cleanup function to remove the event listener when component unmounts or dependencies change.
-    return () => {
-      document.removeEventListener("keydown", callBack);
-    };
-  }, [onCloseMovie]);
+  // Hook for implement the key press feature
+  useKey("Escape", onCloseMovie);
 
   function handleAdd() {
     const newWatchedMovie = {
