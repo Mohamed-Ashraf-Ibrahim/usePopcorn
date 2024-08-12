@@ -1,7 +1,7 @@
 import { average } from "./App";
 
 export default function WatchedSummary({ watched = [] }) {
-  if (!watched || watched.length === 0) return;
+  if (watched.length === 0) return null; // Handle empty watched list
 
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));

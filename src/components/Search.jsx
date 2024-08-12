@@ -6,13 +6,14 @@ export function Search({ query, setQuery }) {
   useEffect(() => {
     function callBack(e) {
       if (document.activeElement === inputEl.current) return;
-      
+
       if (e.code === "Enter") {
         inputEl.current.focus();
         setQuery("");
       }
     }
     document.addEventListener("keydown", callBack);
+
     return () => {
       document.addEventListener("keydown", callBack);
     };

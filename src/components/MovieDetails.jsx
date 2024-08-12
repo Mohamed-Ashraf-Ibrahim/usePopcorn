@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import StarsRating from "./StarsRating";
 import { Loader } from "./Loader";
 
@@ -26,6 +26,11 @@ export function MovieDetails({
     Genre: genre,
   } = movie;
 
+  const countRef = useRef(0);
+
+  useEffect(() => {
+    if (userRating) countRef.current++;
+  });
 
   // Effect for Change the document title
   useEffect(() => {
@@ -62,6 +67,7 @@ export function MovieDetails({
       imdbRating: Number(imdbRating),
       runtime: runtime.split(" ").at(0),
       userRating,
+      countRatingClicks: countRef.current,
     };
     onAddMovie(newWatchedMovie);
     onCloseMovie();
